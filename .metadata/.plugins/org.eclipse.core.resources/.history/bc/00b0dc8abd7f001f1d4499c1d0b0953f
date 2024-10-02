@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Contacts</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .my_contacts * {
+      font-family: Nunito, sans-serif;
+    }
+
+    .my_contacts .container {
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+
+    .my_contacts table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    .my_contacts table,
+    .my_contacts th,
+    .my_contacts td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .my_contacts th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    .my_contacts tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .my_contacts .action-btn {
+      padding: 6px 12px;
+      background-color: #03a9f4;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .my_contacts .delete-btn {
+      background-color: #f44336;
+    }
+
+    .my_contacts .update-btn:hover {
+      background-color: #0288d1;
+    }
+
+    .my_contacts .delete-btn:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="my_contacts">
+    <div class="container">
+      <h2>My Contacts</h2>
+      <table>
+        <thead>
+          <tr>
+          	<th>ID</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Message</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Example Rows (replace with dynamic content later) -->
+          <c:forEach var="contact" items="${contactDetails}">
+                    <tr>
+                        <td>${contact.id}</td>
+                    
+                        <td>${contact.uname}</td>
+                    
+                        <td>${contact.email}</td>
+                    
+                        <td>${contact.phone}</td>
+                    
+                        <td>${contact.msg}</td>
+                        
+                        <td>
+			              <button class="action-btn update-btn">Update</button>
+			              <button class="action-btn delete-btn">Delete</button>
+			            </td>
+                    </tr>
+                </c:forEach>
+          <!-- More Rows Can Be Added Dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+
+</html>

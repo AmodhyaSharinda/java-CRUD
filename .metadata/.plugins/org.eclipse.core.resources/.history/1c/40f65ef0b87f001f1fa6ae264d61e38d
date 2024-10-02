@@ -1,0 +1,41 @@
+package com.customer;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/LoginServlet")
+public class com.customer.LoginServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String uname = request.getParameter("Username");
+        String pass = request.getParameter("Password");
+
+        try {
+            List<Customer> custDetails = CustomerDBUtil.validateCustomer(uname, pass);
+            if (custDetails != null && !custDetails.isEmpty()) {
+                request.setAttribute("custDetails", custDetails);
+                RequestDispatcher dis = request.getRequestDispatcher("userAccount.jsp");
+                dis.forward(request, response);
+            } else {
+                // Invalid credentials
+                request.setAttribute("errorMessage", "Invalid username or password. Please try again.");
+                RequestDispatcher dis = request.getRequestDispatcher("login.jsp");
+                dis.forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Optionally forward to an error page
+            request.setAttribute("errorMessage", "An error occurred. Please try again later.");
+            RequestDispatcher dis = request.getRequestDispatcher("error.jsp");
+            dis.forward(request, response);
+        }
+    }
+}

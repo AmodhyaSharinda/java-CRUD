@@ -1,0 +1,65 @@
+package com.customer;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+public class CustomerDBUtil {
+
+    public static List<Customer> validateCustomer(String userName, String password) {
+        List<Customer> customers = new ArrayList<>();
+
+        // Database connection details
+        String url = "jdbc:mysql://localhost:3306/online_laundry_management_system"; // Corrected port
+        String user = "root";
+        String pass = "amodhya@200211";
+
+        // SQL query using placeholders for security
+        String sql = "SELECT * FROM `online_laundry_management_system` WHERE username = ? AND password = ?";
+
+        try {
+            // Load MySQL JDBC Driver
+            Class.forName("com.mysql.cj.jdbc.Driver"); // Updated driver class
+
+            // Establish connection to the database
+            Connection con = DriverManager.getConnection(url, user, pass);
+
+            // Prepare the SQL statement
+            PreparedStatement pstmt = con.prepareStatement(sql);
+
+            // Set the values for the placeholders
+            pstmt.setString(1, userName);
+            pstmt.setString(2, password);
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+
+            // Process the result set
+            while (rs.next()) {
+                int id = rs.getInt("id"); // Assuming 'id' is the name of the first column
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                String username = rs.getString("username");
+                String userpass = rs.getString("password");
+
+                // Create a new Customer object and add it to the list
+                Customer customer = new Customer(id, name, email, phone, username, userpass);
+                customers.add(customer);
+            }
+
+            // Close the resources
+            rs.close();
+            pstmt.close();
+            con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle exceptions
+        }
+
+        return customers;
+    }
+}

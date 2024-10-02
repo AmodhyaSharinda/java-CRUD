@@ -1,0 +1,9 @@
+package com.customer;
+
+public class CustomerDBUtil {
+	
+	public static List<Customer> validateCustomer(String username, String password) {
+		
+	}
+	
+}

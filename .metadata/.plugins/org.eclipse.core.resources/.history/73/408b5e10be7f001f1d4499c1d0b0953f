@@ -1,0 +1,74 @@
+package com.contactUs;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+public class contactDBUtil {
+	
+
+	private static Connection con = null;
+	private static Statement stmt = null;
+	private static ResultSet rs = null;
+	
+	public static boolean insertContactMsg (String username, String email, String phone, String msg) {
+		
+		boolean isSuccess = false;
+		
+		
+		try {
+			con = DBConnect.getConnection();
+			stmt = con.createStatement();
+			
+			String sql = "insert into contact values (0, '"+username+"', '"+email+"',  '"+phone+"', '"+msg+"')";
+			
+			int rs = stmt.executeUpdate(sql);
+			
+			if(rs > 0) {
+    			isSuccess = true;
+    		} else {
+    			isSuccess = false;
+    		}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		
+		return isSuccess;
+	}
+	
+	public static List<Contact> getContactDetails(String Username) {
+    	
+    	
+    	ArrayList<Contact> contact = new ArrayList<>();
+    	
+    	try {
+    		
+    		con = DBConnect.getConnection();
+    		stmt = con.createStatement();
+    		String sql = "select * from contact where Username='"+Username+"'";
+    		rs = stmt.executeQuery(sql);
+    		
+    		while(rs.next()) {
+    			int id = rs.getInt(1);
+    			String uname = rs.getString(2);
+    			String email = rs.getString(3);
+    			String phone = rs.getString(4);
+    			String msg = rs.getString(5);
+    			
+    			Contact c = new Contact(id,uname,email,phone,msg);
+    			contact.add(c);
+    		}
+    		
+    	}
+    	catch(Exception e) {
+    		e.printStackTrace();
+    	}	
+    	return contact;	
+    }
+
+}

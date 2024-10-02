@@ -1,0 +1,45 @@
+package com.contactUs;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class updateContactServelet
+ */
+@WebServlet("/updateContactServelet")
+public class updateContactServelet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		
+		String username = request.getParameter("UserName");
+		String email = request.getParameter("Email");
+		String phone = request.getParameter("PhoneNumber");
+		String msg = request.getParameter("Msg");
+		
+		boolean isTrue;
+		
+		isTrue = contactDBUtil. CustomerDBUtil.updatecustomer(id, name, email, phone, username, password);
+		
+		if(isTrue == true) {
+			
+			List<Customer> cusDetails = CustomerDBUtil.getCustomerDetails(id);
+			request.setAttribute("cusDetails", cusDetails);
+			
+			RequestDispatcher dis = request.getRequestDispatcher("useraccount.jsp");
+			dis.forward(request, response);
+		}
+		else {
+			List<Customer> cusDetails = CustomerDBUtil.getCustomerDetails(id);
+			request.setAttribute("cusDetails", cusDetails);
+			
+			RequestDispatcher dis = request.getRequestDispatcher("useraccount.jsp");
+			dis.forward(request, response);
+		}
+	}
+
+}

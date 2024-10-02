@@ -1,0 +1,43 @@
+package com.contactUs;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class contactDBUtil {
+	
+
+	private static Connection con = null;
+	private static Statement stmt = null;
+	private static ResultSet rs = null;
+	
+	public static boolean insertContactMsg (String username, String email, String phone, String msg) {
+		
+		boolean isSuccess = false;
+		
+		
+		try {
+			con = DBConnect.getConnection();
+			stmt = con.createStatement();
+			
+			String sql = "insert into contact values (0, '"+username+"', '"+email+"',  '"+phone+"', '"+msg+"')";
+			
+			int rs = stmt.executeUpdate(sql);
+			
+			if(rs > 0) {
+    			isSuccess = true;
+    		} else {
+    			isSuccess = false;
+    		}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		
+		return isSuccess;
+	}
+
+}

@@ -1,0 +1,25 @@
+package com.contactUs;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/contactServlet")
+public class contactServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+   
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String fname = request.getParameter("FirstName");
+		String lname = request.getParameter("LastName");
+		String email = request.getParameter("Email");
+		String phone = request.getParameter("PhoneNumber");
+		String msg = request.getParameter("Msg");
+	}
+
+}

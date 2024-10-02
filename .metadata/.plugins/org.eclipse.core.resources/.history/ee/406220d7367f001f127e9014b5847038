@@ -1,0 +1,52 @@
+package com.customer;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+public class CustomerDBUtil {
+
+    public static List<Customer> validateCustomer(String userName, String password) {
+        List<Customer> customerList = new ArrayList<>();
+
+        // Database connection details
+        String url = "jdbc:mysql://localhost:3306/lundry";
+        String user = "root";
+        String pass = "amodhya@200211"; // Consider externalizing this
+
+        // Try-with-resources for automatic resource management
+        try (Connection con = DriverManager.getConnection(url, user, pass);
+             PreparedStatement stmt = con.prepareStatement("SELECT * FROM customer WHERE username = ?")) {
+
+            // Load JDBC Driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Parameterized query to prevent SQL injection
+            stmt.setString(1, userName);
+
+            // Execute query
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    String userpass = rs.getString("password"); // Get hashed password from the database
+                    // Compare hashed password with the entered password
+                    if (BCrypt.checkpw(password, userpass)) { // Use BCrypt for password comparison
+                        int id = rs.getInt("id");
+                        String name = rs.getString("name");
+                        String email = rs.getString("email");
+                        String phone = rs.getString("phone");
+                        
+                        Customer c = new Customer(id, userName, userpass, name, email, phone);
+                        customerList.add(c);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return customerList; // Return the list, which could be empty if no customer found
+    }
+}

@@ -1,0 +1,130 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><!-- Include the database connection logic -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Account - Laundry Management System</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f4f7f6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .nav-menu {
+            background: #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+        }
+        .nav-menu a:hover {
+            text-decoration: underline;
+        }
+        .profile-info {
+            margin-bottom: 30px;
+        }
+        .profile-info label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .profile-info input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .button-container {
+            text-align: right;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .button-container button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-menu">
+            <a href="dashboard.jsp">Dashboard</a>
+            <a href="customerAccount.jsp">My Account</a>
+            <a href="orderHistory.jsp">Order History</a>
+            <a href="logout.jsp">Logout</a>
+        </div>
+
+        <!-- Profile Section -->
+		<div class="section" id="profile">
+		    <h3>Profile Information</h3>
+		    
+		    <!-- Table displaying customer details -->
+		    <table>
+		        <c:forEach var="cus" items="${custDetails}">
+		        
+		        <c:set var="id" value="${cus.idCustomer}"/>
+				<c:set var="name" value="${cus.name}"/>
+				<c:set var="email" value="${cus.email}"/>
+				<c:set var="phone" value="${cus.phone}"/>
+				<c:set var="username" value="${cus.username}"/>
+				<c:set var="password" value="${cus.password}"/>
+				
+		            <tr>
+		                <td>Customer ID</td>
+		                <td>${cus.idCustomer}</td>
+		            </tr>
+		            <tr>
+		                <td>Customer Name</td>
+		                <td>${cus.name}</td>
+		            </tr>
+		            <tr>
+		                <td>Customer Email</td>
+		                <td>${cus.email}</td>
+		            </tr>
+		            <tr>
+		                <td>Customer Phone</td>
+		                <td>${cus.phone}</td>
+		            </tr>
+		            <tr>
+		                <td>Customer User Name</td>
+		                <td>${cus.username}</td>
+		            </tr>
+		        </c:forEach>
+		    </table>
+		</div>
+
+
+    </div>
+</body>
+</html>

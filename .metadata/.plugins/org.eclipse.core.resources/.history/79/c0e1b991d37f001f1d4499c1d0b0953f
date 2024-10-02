@@ -1,0 +1,47 @@
+package com.contactUs;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/deleteContactServlet")
+public class deleteContactServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+ 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String id = request.getParameter("id");
+		boolean isTrue = false;
+		
+		// Handle potential exception from parsing the contact ID
+		try {
+			int ID = Integer.parseInt(id); // Parse contact ID
+			// Call the DB utility to delete the contact
+			isTrue = contactDBUtil.deletecontact(ID);
+		} catch (NumberFormatException e) {
+			System.out.println("Invalid contact ID: " + id);
+			e.printStackTrace();
+		}
+		
+		String username = request.getParameter("UserName"); // Assuming you need this for fetching contact details
+		List<Contact> contactDetails = contactDBUtil.getContactDetails(username); // Retrieve updated contact details
+		
+		request.setAttribute("contactDetails", contactDetails);
+		
+		// Optionally, set a message if the deletion failed
+		if (!isTrue) {
+			request.setAttribute("errorMessage", "Failed to delete contact. Please try again.");
+		}
+
+		// Forward the request to the MyContact.jsp page with updated contact details
+		RequestDispatcher dis = request.getRequestDispatcher("MyContact.jsp");
+		dis.forward(request, response);
+	}
+
+}
